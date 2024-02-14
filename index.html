@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Image on Button Click</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Style the container */
+        .image-container {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Style the text */
+        .image-text_1 {
+            display: none;
+            /* initially hide the text */
+            position: absolute;
+            top: 400px;
+            /* Adjust the top position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff6fe;
+            font-size: 34px;
+            font-weight: bold;
+            text-align: center;
+            /* Center horizontally */
+            text-shadow: 12px 12px 12px rgba(0, 0, 0, 1);
+            line-height: 1;
+            /* Adjust the line height as needed */
+        }
+
+        /* Style the button */
+        .button_0 {
+            display: inline-block;
+            position: absolute;
+            top: 525px;
+            /* Adjust the top position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #ef12d9;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style the button */
+        .button_1 {
+            display: none;
+            position: absolute;
+            top: 525px;
+            /* Adjust the top position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 43px;
+            background-color: #ffd1fa;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style the input field */
+        #nameInput {
+            display: none;
+            position: absolute;
+            top: 525px;
+            /* Adjust the top position as needed */
+            left: 45%;
+            padding: 5px 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 1;
+            /* Ensure the input is above the background image */
+        }
+
+        /* Style the name display */
+        #nameDisplay {
+            display: none;
+            position: absolute;
+            top: 525px;
+            /* Adjust the top position as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff6fe;
+            font-size: 72px;
+            font-weight: bold;
+            text-align: center;
+            /* Center horizontally */
+            z-index: 1;
+            /* Ensure the name display is above the background image */
+        }
+
+        .button_0,
+        .button_1,
+        #nameInput {
+            margin: 0 auto;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style the button when hovered */
+        .button_0:hover,
+        .button_1:hover {
+            background-color: #f0b8df;
+        }
+        /* Style the admin login button */
+        #adminLogin {
+            position: absolute;
+            top: 20px; /* Adjust the top position as needed */
+            left: 20px; /* Adjust the left position as needed */
+            padding: 10px 15px;
+            background-color: #523e20; /* Change the background color */
+            color: #fff; /* Change the text color */
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style the admin form */
+        #adminForm {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff; /* Change the background color */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a box shadow */
+        }
+
+        /* Style the form elements */
+        #adminForm label, #adminForm input, #adminForm button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* Style the update button */
+        #updateValues {
+            padding: 10px 15px;
+            background-color: #efbb6e; /* Change the background color */
+            color: #fff; /* Change the text color */
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Style the form elements */
+        #adminForm input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        /* Style the participants list container */
+        #participantsList {
+            position: absolute;
+            top: 300px; /* Adjust the top position as needed */
+            right: 20px; /* Adjust the right position as needed */
+            padding: 10px;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-weight: bolder;
+            font-size: 24px;
+        }
+
+        /* Style each participant item */
+        .participantItem {
+            color: #ffffff; /* Change text color to white */
+            list-style: none; /* Remove bullets */
+            margin-bottom: 5px;
+            margin-left:-5px ;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="image-container" id="imageContainer" style="background-image: url('Images/_20190108_210540.jpg');">
+        <div class="image-text_1" id="imageText_1">Join my next training session at SATS Lyngby on Wednesday at 6 PM
+        </div>
+        <button class="button_0" id="showButton_0">Welcome</button>
+        <button class="button_1" id="showButton_1">Join!</button>
+        <input type="text" id="nameInput" placeholder="Your Name">
+        <div id="nameDisplay"></div>
+        <!-- Admin login button and form -->
+        <button id="adminLogin">Admin Login</button>
+        <form id="adminForm" style="display: none;">
+            <label for="newLocation">New Location:</label>
+            <input type="text" id="newLocation" placeholder="Enter new location">
+
+            <label for="newDay">New Day:</label>
+            <input type="text" id="newDay" placeholder="Enter new day">
+
+            <label for="newTime">New Time:</label>
+            <input type="text" id="newTime" placeholder="Enter new time">
+
+            <button type="button" id="updateValues">Update Values</button>
+        </form>
+        <!-- Participants list container -->
+        <div id="participantsList">
+            <h3>List of Participants</h3>
+            <ul id="participantsUl"></ul>
+        </div>
+    </div>
+
+    <script>
+        const showButton_0 = document.getElementById('showButton_0');
+        const showButton_1 = document.getElementById('showButton_1');
+        const imageContainer = document.getElementById('imageContainer');
+        const imageText_1 = document.getElementById('imageText_1');
+        const joinButton = document.getElementById('showButton_1');
+        const nameInput = document.getElementById('nameInput');
+        const nameDisplay = document.getElementById('nameDisplay');
+        const adminLoginButton = document.getElementById('adminLogin');
+        const adminForm = document.getElementById('adminForm');
+        const updateValuesButton = document.getElementById('updateValues');
+        // Array to store participant names
+        const participants = [];
+
+        let isButtonToggled = false; // Variable to track the button state
+        let isAdminLoggedIn = false;
+
+        // Function to update the participants list
+        function updateParticipantsList() {
+            const participantsUl = document.getElementById('participantsUl');
+
+            // Clear the existing list
+            participantsUl.innerHTML = '';
+
+            // Create list items for each participant
+            participants.forEach((participant) => {
+                const li = document.createElement('li');
+                li.textContent = participant;
+                li.className = 'participantItem';
+                participantsUl.appendChild(li);
+            });
+        }
+
+        showButton_0.addEventListener('click', () => {
+            // Toggle the button state
+            isButtonToggled = !isButtonToggled;
+
+            if (isButtonToggled) {
+                // If the button is toggled, display the associated elements
+                imageText_1.style.display = 'block';
+                showButton_0.style.display = 'none';
+                showButton_1.style.display = 'block';
+                imageContainer.style.backgroundImage = "url('Images/_20190108_210540.jpg')";
+            } else {
+                // If the button is not toggled, hide the associated elements
+                imageText_1.style.display = 'none';
+                showButton_0.style.display = 'block';
+                showButton_1.style.display = 'none';
+                nameInput.style.display = 'none';
+                imageContainer.style.backgroundImage = 'none';
+            }
+        });
+
+        showButton_1.addEventListener('click', () => {
+            nameInput.style.display = 'block';
+            showButton_1.style.display = 'none';
+        });
+
+        nameInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                // If the 'Enter' key is pressed, hide the nameInput
+                nameInput.style.display = 'none';
+
+                // Check if nameInput has been filled in
+                if (nameInput.value.trim() !== '') {
+                    // If the input has content, add to the participants list
+                    participants.push(nameInput.value);
+                    updateParticipantsList();
+
+                    // If the input has content, display nameDisplay
+                    nameDisplay.innerText = `Hola ${nameInput.value}!`;
+                    nameDisplay.style.display = 'block';
+                } else {
+                    // If the input is empty, hide nameDisplay
+                    nameDisplay.style.display = 'none';
+                }
+            }
+        });
+
+        adminLoginButton.addEventListener('click', () => {
+            // Simulate a simple authentication, replace it with a secure authentication method
+            const password = prompt('Enter admin password:');
+            if (password === 'adminPassword') {
+                isAdminLoggedIn = true;
+                adminForm.style.display = 'block';
+            } else {
+                alert('Incorrect password. Try again.');
+            }
+        });
+
+        updateValuesButton.addEventListener('click', () => {
+            if (isAdminLoggedIn) {
+                // Replace the text content with the values entered in the form
+                const newLocation = document.getElementById('newLocation').value;
+                const newDay = document.getElementById('newDay').value;
+                const newTime = document.getElementById('newTime').value;
+
+                // Update the text content
+                imageText_1.innerText = `Join my next training session at ${newLocation} on ${newDay} at ${newTime}`;
+
+                // Hide the admin form after updating values
+                adminForm.style.display = 'none';
+                isAdminLoggedIn = false;
+            } else {
+                alert('You need to log in as an administrator first.');
+            }
+        });
+    </script>
+    <!-- Add this script tag in your HTML file -->
+<script>
+    async function saveNamesToDatabase(name) {
+      try {
+        const response = await fetch('http://localhost:3000/api/names', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name }),
+        });
+  
+        if (!response.ok) {
+          console.error('Failed to save name to the database.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  
+    async function getNamesFromDatabase() {
+      try {
+        const response = await fetch('http://localhost:3000/api/names');
+        const data = await response.json();
+  
+        if (!response.ok) {
+          console.error('Failed to retrieve names from the database.');
+        } else {
+          // Do something with the retrieved names, e.g., display them on the page
+          console.log('Names from the database:', data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  </script>
+
+<script>
+    // ... (your existing JavaScript code) ...
+
+    // Function to update the participants list
+    function updateParticipantsList() {
+        const participantsUl = document.getElementById('participantsUl');
+
+        // Clear the existing list
+        participantsUl.innerHTML = '';
+
+        // Create list items for each participant
+        participants.forEach((participant) => {
+            const li = document.createElement('li');
+            li.textContent = participant;
+            li.className = 'participantItem';
+            participantsUl.appendChild(li);
+        });
+
+        // Save the updated list to the database
+        saveNamesToDatabase(participants);
+    }
+
+    // Function to save names to the database
+    async function saveNamesToDatabase(names) {
+        try {
+            const response = await fetch('http://localhost:3000/api/names', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ names }),
+            });
+
+            if (!response.ok) {
+                console.error('Failed to save names to the database.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Function to retrieve names from the database
+    async function getNamesFromDatabase() {
+        try {
+            const response = await fetch('http://localhost:3000/api/names');
+            const data = await response.json();
+
+            if (!response.ok) {
+                console.error('Failed to retrieve names from the database.');
+            } else {
+                // Populate the participants array with retrieved names
+                participants.push(...data);
+                // Update the participants list on the page
+                updateParticipantsList();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    // Load names from the database when the page loads
+    window.onload = getNamesFromDatabase;
+</script>
+</body>
+
+</html>
+
